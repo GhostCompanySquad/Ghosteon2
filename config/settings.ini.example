@@ -1,0 +1,16 @@
+[discord]
+token=
+command_prefix=!
+games_category_id=1422554119931039744
+archives_category_id=1422567391514071100
+abyssal_category_id=1425853735007027200
+ghost_role_ids=1,2,3
+gold_control_channel_id=
+control_delay=20
+
+[database]
+host=localhost
+user=bot_user
+password=bot_password
+database=database
+port=7895
