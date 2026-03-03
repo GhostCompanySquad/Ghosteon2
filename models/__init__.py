@@ -1,11 +1,12 @@
-from peewee import MySQLDatabase, IntegrityError
+from peewee import IntegrityError
+from playhouse.pool import PooledMySQLDatabase
 
 from config.loader import Config
 
 config = Config()
 
 # Initialisation de la DB (à configurer via variables d'environnement en prod)
-db = MySQLDatabase(
+db = PooledMySQLDatabase(
     config.db_config["database"],
     user=config.db_config["user"],
     password=config.db_config["password"],
