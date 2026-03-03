@@ -8,13 +8,15 @@ def generate_game_channel_name(username: str, params) -> str:
     game_id = params.get("game_id")
 
     temporary = False
-    fragments = [emoji]
-    if speed is not None:
-        fragments.append(f"x{speed}")
-    else:
-        temporary = True
+    fragments = []
+    if emoji is not None:
+        fragments.append(emoji)
     if size is not None:
         fragments.append(size)
+    else:
+        temporary = True
+    if speed is not None:
+        fragments.append(f"x{speed}")
     else:
         temporary = True
     if game_id is not None:

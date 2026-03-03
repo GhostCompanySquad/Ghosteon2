@@ -10,9 +10,11 @@ db = MySQLDatabase(
     user=config.db_config["user"],
     password=config.db_config["password"],
     host=config.db_config["host"],
-    port=int(config.db_config["port"])
+    port=int(config.db_config["port"]),
+    autoconnect=True,
+    autorollback=True,
+    stale_timeout=300,  # 5 minutes
 )
-
 
 # Import des modèles
 from .state import State

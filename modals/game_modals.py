@@ -16,7 +16,7 @@ class NewGameModal(discord.ui.Modal):
             label="Émoji [ win + ; ]",
             placeholder="émoji",
             default=str(emoji.emojize(lobby.emoji)) if edit and lobby and lobby.emoji else None,
-            required=True,  # toujours obligatoire
+            required=False,  # toujours obligatoire
             style=TextStyle.short
 
         )

@@ -26,7 +26,7 @@ class Game(commands.Cog):
     @app_commands.describe(
         participants="Liste des joueurs"
     )
-    async def lancer_partie(self, interaction: discord, participants: str) -> None:
+    async def lancer_partie(self, interaction: discord, participants: str = '') -> None:
         mentions = participants.split()
         config = Config()
 
@@ -62,10 +62,13 @@ class Game(commands.Cog):
             game_id = None
 
         try:
+
+            str_emoji: str = emoji.demojize(new_game_modal.result.get("emoji")) if new_game_modal.result.get("emoji") else None
+
             # Enregistrement du lobby en DB
             Lobby.create(
                 channel_id=game_channel.id,
-                emoji=emoji.demojize(new_game_modal.result.get("emoji")),
+                emoji=str_emoji,
                 speed=new_game_modal.result.get("speed"),
                 size=new_game_modal.result.get("size"),
                 game_id=game_id,
@@ -76,14 +79,17 @@ class Game(commands.Cog):
                 "Un problème est survenu.",
                 "Erreur lors de la création du salon"
             )
-            game_channel.delete()
+            await game_channel.delete()
             logging.error(f"Erreur lors de l'enregistrement du lobby: {e}")
             await interaction.followup.send(embed=embed, ephemeral=True)
             return
 
         # Ping des joueurs
         await game_channel.send(
-            embed=info(f"Participants : {' '.join(mentions)}.\nAmusez vous bien !", "🎮 Partie lancée !")
+            embed=info(f"Participants : {' '.join(mentions)}.\nAmusez vous bien !", "🎮 Partie lancée !"),
+            allowed_mentions=discord.AllowedMentions(
+                users=True
+            )
         )
 
         control_thread = await game_channel.create_thread(

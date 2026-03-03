@@ -4,8 +4,11 @@ from config.loader import Config
 from models import init_db
 
 config = Config()
-
+# Intents
 intents = discord.Intents.default()
+intents.message_content = True
+intents.guilds = True
+intents.messages = True
 intents.guilds = True
 intents.members = True
 
