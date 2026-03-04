@@ -8,9 +8,7 @@ def generate_game_channel_name(username: str, params) -> str:
     game_id = params.get("game_id")
 
     temporary = False
-    fragments = []
-    if emoji is not None:
-        fragments.append(emoji)
+    fragments = [emoji]
     if size is not None:
         fragments.append(size)
     else:

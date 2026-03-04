@@ -62,13 +62,10 @@ class Game(commands.Cog):
             game_id = None
 
         try:
-
-            str_emoji: str = emoji.demojize(new_game_modal.result.get("emoji")) if new_game_modal.result.get("emoji") else None
-
             # Enregistrement du lobby en DB
             Lobby.create(
                 channel_id=game_channel.id,
-                emoji=str_emoji,
+                emoji=emoji.demojize(new_game_modal.result.get("emoji")),
                 speed=new_game_modal.result.get("speed"),
                 size=new_game_modal.result.get("size"),
                 game_id=game_id,
@@ -83,6 +80,9 @@ class Game(commands.Cog):
             logging.error(f"Erreur lors de l'enregistrement du lobby: {e}")
             await interaction.followup.send(embed=embed, ephemeral=True)
             return
+
+        if interaction.user.mention not in mentions:
+            mentions.append(interaction.user.mention)
 
         # Ping des joueurs
         await game_channel.send(
